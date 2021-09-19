@@ -1,0 +1,82 @@
+@startuml classdiagram
+
+
+    interface Product {
+        weight(): double
+        price(): double
+    }
+    Interface FoodCalorie {
+     Kcalorie100g();
+    }
+    Interface FoodProductCalorie extends Product, FoodCalorie{
+      
+        default kcalorie = Product.weight()*FoodCalorie.Kcal100;
+     
+    }
+
+    enum SauceType implements FoodCalorie{
+        BURGER, BARBECUE, BEARNAISE
+    }
+
+    enum MeatType implements FoodCalorie {
+        BEEF, WHITEFISH
+        + price(): double
+    }
+
+    class Cheddar implements FoodProductCalorie {
+        - weight: double
+        - BASE_PRICE: double = 4
+        + this(weight: double)
+        + weight(): double
+        + price(): double
+        + Kcal100g() : double
+    }
+
+    class DeepFriedOnions implements FoodProductCalorie {
+        - weight: double
+        - BASE_PRICE: double = 1.5
+        + this(weight: double)
+        + weight(): double
+        + price(): double
+        + Kcal100g() : double
+    }
+
+    class Tomato implements FoodProductCalorie {
+        - weight: double
+        - BASE_PRICE: double = 0.5
+        + this(weight: double)
+        + weight(): double
+        + price(): double
+        + Kcal100g() : double
+    }
+
+    class Sauce implements FoodProductCalorie {
+        - weight: double
+        - {static} BASE_PRICE: double = 1
+        + this(type: SauceType, weight: double)
+        + weight(): double
+        + price(): double
+        + Kcal100g() : double
+    }
+    Sauce *--> "-type" SauceType
+
+    class Meat implements FoodProductCalorie {
+        - weight: double
+        + this(type: MeatType, weight: double)
+        + weight(): double
+        + price(): double
+        + Kcal100g() : double
+    }
+    Meat *--> "-type" MeatType
+
+    class Burger implements FoodProductCalorie {
+        ~ name: string
+        + this(name: string, items: List<FoodProductCalorie>)
+        + weight(): double
+        + price(): double
+        + Kcalorie() : double 
+        + K calorie100g : double 
+    }
+    Burger *-> "~items *" FoodProductCalorie
+
+@enduml
