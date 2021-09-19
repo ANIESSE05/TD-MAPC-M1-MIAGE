@@ -44,7 +44,7 @@
         + this(type: SauceType, weight: double)
         + weight(): double   
         + price(): double
-        h :int
+       
     }
     Sauce *--> "-type" SauceType
 
