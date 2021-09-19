@@ -4,7 +4,7 @@
     interface Product {
         weight(): double
         price(): double
-    }
+    }      
     Interface FoodCalorie {
      Kcalorie100g();
     }
