@@ -38,7 +38,7 @@
         + price(): double
     }
 
-    class Sauce implements Product {
+    class Sauce implements Product { 
         - weight: double
         - {static} BASE_PRICE: double = 1
         + this(type: SauceType, weight: double)
