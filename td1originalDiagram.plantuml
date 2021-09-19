@@ -36,14 +36,15 @@
         + this(weight: double)
         + weight(): double
         + price(): double
-    }
+    }  
 
     class Sauce implements Product { 
         - weight: double
         - {static} BASE_PRICE: double = 1
         + this(type: SauceType, weight: double)
-        + weight(): double
+        + weight(): double   
         + price(): double
+        h :int
     }
     Sauce *--> "-type" SauceType
 
