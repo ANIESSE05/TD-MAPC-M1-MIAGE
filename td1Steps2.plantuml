@@ -1,0 +1,64 @@
+@startuml classdiagram
+
+ 
+
+  package money {
+        interface Product {
+            + price(): double
+        }      
+    }
+  package Food{
+        Interface FoodCalorie {
+            + Kcalorie100g()
+        }
+    }
+    package Restauration{
+        Interface FoodProduct extends Product, FoodCalorie{
+         + hasUniquePrice():bool
+
+        }
+     Interface WeightFoodProductCalorie extends FoodProduct {
+            + weight():double
+            + default kcalorie () {Product.weight()*FoodCalorie.Kcal100} 
+     
+       }
+
+    }
+    
+    package Burger {
+        enum FoodType implements FoodProduct{
+            BURGER, BARBECUE, BEARNAISE,BEEF,WHITEFISH,CHEDDAR,
+            DEEPERIEDONIONS,TOMATO 
+            + calorie100g():double
+            + price():double
+            + hasUniquePrice():bool
+      }
+
+     Class Ingredient implements WeightFoodProductCalorie{
+            - weight:double
+            + this(type:FoodType,weight:double)
+            + calorie100g():double
+            + weight():double
+            + calorie(): double
+            + price():double
+            + hasUniquePrice(): bool
+
+       }
+      Ingredient *-> "~type 1" FoodType
+
+        Class Burger implements WeightFoodProductCalorie {
+            ~ name: string
+            + this(name: string, items: List<Ingredient>)
+            + weight(): double
+            + price(): double
+            + Kcalorie() : double 
+            + Kcalorie100g() : double 
+            + hasUniquePrice() : bool
+       
+        }
+  
+        Burger *-> "~items *" Ingredient
+    }
+    
+
+@enduml

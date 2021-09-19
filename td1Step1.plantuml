@@ -6,7 +6,7 @@
         price(): double
     }      
     Interface FoodCalorie {
-     Kcalorie100g();
+        Kcalorie100g()
     }
     Interface FoodProductCalorie extends Product, FoodCalorie{
       

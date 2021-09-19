@@ -1,0 +1,63 @@
+@startuml classdiagram
+
+ 
+
+  package monetary {
+        interface Product {
+            + price(): double
+        }      
+    }
+  package dietetic{
+        Interface DieteticElement {
+            + Kcalorie100g()
+        }
+    }
+    package Restauration{
+        Interface Food extends Product, DieteticElement{
+         + weight() : double
+         + colorie() : double<default>
+
+        }
+     Class Ingerdient implements Food {
+            - weight:double
+            + this(base:Base,weight:double)
+            + calorie100g():double
+            + weight():double
+            + calorie(): double
+            + price():double
+            
+       }
+       Ingerdient *-> "~base 1" Base
+       Interface Base extends DieteticElement , Product{
+           + hasUniquePrice :bool
+       }
+          Class Recipe implements Food {
+            - name: string
+            + this(name: string, ingerdienta: List<Ingredient>)
+            + weight(): double
+            + price(): double
+            + Kcalorie() : double 
+            + Kcalorie100g() : double 
+        }
+       
+    }
+    package Burger {
+        enum BurgerBase implements Base{
+            BURGER, BARBECUE, BEARNAISE,BEEF,WHITEFISH,CHEDDAR,
+            DEEPERIEDONIONS,TOMATO 
+            + calorie100g():double
+            + price():double
+            + hasUniquePrice():bool
+      }
+
+
+        Class Burger extends Recipe  {
+          this(name:stringm ingredients:List<Ingredient>)
+     
+        }
+  
+        
+    }
+    
+
+@enduml
