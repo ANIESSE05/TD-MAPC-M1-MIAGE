@@ -1,0 +1,138 @@
+@startuml classdiagram
+
+
+ package api {
+    package monetary {
+        interface Product {
+            + price(): double
+        }      
+    }
+    package dietetic{
+        Interface DieteticElement {
+            + Kcalorie100g()
+        }
+    }
+    package Restauration{
+        Interface Food extends Product, DieteticElement{
+         + weight() : double
+         + colorie() : double<default>
+
+        }
+        Interface Base extends DieteticElement , Product{
+           + hasUniquePrice :bool
+       }
+       Class Ingerdient implements Food {
+            - weight:double
+            + this(base:Base,weight:double)
+            + calorie100g():double
+            + weight():double
+            + calorie(): double
+            + price():double
+            
+       }
+       Ingerdient *-> "~base 1" Base
+     
+       abstract class Recipe  extends Food implements ComposedFood {
+            - name: string
+            + this(name: string, ingerdienta: List<Ingredient>)
+            + weight(): double
+            + price(): double
+            + Kcalorie() : double 
+            + Kcalorie100g() : double 
+        }
+         
+       Recipe *-> "ingredients *" Food
+       Recipe ..> Ingerdient
+       Interface ComposedFood extends Food{
+           add(base:Base,weight:double);
+       }
+       
+       
+    }
+    
+    package Burger {
+        enum BurgerMeat extends Base {
+           BEEF,WHITEFISH 
+            + calorie100g():double
+            + price():double
+            + hasUniquePrice():bool
+        }
+        enum BurgerSauce extends Base{
+           BEEF,WHITEFISH 
+            + calorie100g():double
+            + price():double
+            + hasUniquePrice():bool
+        }
+           enum BurgerIngredient extends Base{
+           BEEF,WHITEFISH 
+            + calorie100g():double
+            + price():double
+            + hasUniquePrice():bool
+        }
+
+
+        Class Burger extends Recipe  {
+          this(name:stringm ingredients:List<Ingredient>)
+     
+        }
+
+        Enum MenuSize{
+            SMALL,MEIUM,BIG
+            meatWeight() : double
+
+
+        }
+
+        Enum MenuType{
+            MEAT_MENU,FISH_MENU,CHEESE_MENU
+        }
+
+        Class BurgerBuilder {
+            ~name: string 
+            order_name(name : string, type :MenuType):BurgerBuilder
+            order_beef(name : string,size:MenuSize) : BurgerBuilder
+            order_bish(name: string ,size :MenuSize) : BurgerBuilder
+            with_barbecue_sauce():BurgerBuilder
+            with_bearnaise_sauce():BurgerBuilder
+            with_cheddar():BurgerBuilder
+            with_onions():BurgerBuilder
+            with_tomato():BurgerBuilder
+            cook():ComposedFood
+        
+        }
+        BurgerBuilder ..> MenuSize
+        BurgerBuilder ..> MenuType
+        BurgerBuilder ..> BurgerIngredient
+        BurgerBuilder ..> BurgerMeat
+        BurgerBuilder ..> BurgerSauce
+        BurgerBuilder ..>"create" Burger
+        BurgerBuilder ..> ComposedFood
+
+
+        Class Burger {
+            this(name:string)
+        }
+  
+        
+    }
+    
+}
+package client {
+    class App  {
+       static main(arg:string[*]):void
+    }
+    App ..>  MenuType
+    App ..>  BurgerBuilder
+    App ..>  MenuSize
+    App ..> Food
+    App ..> BurgerMeat
+    App ..> BurgerSauce
+
+    
+    
+}  
+
+
+ 
+
+@enduml
